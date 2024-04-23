@@ -1,4 +1,5 @@
 using UnityEngine;
+using Lean.Pool;
 
 public class PlayerController : MonoBehaviour
 {
@@ -6,7 +7,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float screenWidth;
     [SerializeField] private float screenHeight;
     [SerializeField] private float rotationSpeed;
+    [SerializeField] private GameObject bulletPrefab; // Prefab of the bullet to shoot
+    [SerializeField] private float fireRate; // Time between shots in seconds
+    [SerializeField] private float bulletSize;
+    [SerializeField] private float bulletSpeed;
+    [SerializeField] private int bulletWrapCount;
 
+    private float nextFireTime = 0f;
     private Rigidbody2D rb;
 
     private void Awake()
@@ -31,6 +38,13 @@ public class PlayerController : MonoBehaviour
 
         // Rotate towards mouse position
         RotateTowardsMouse();
+
+        // Check for shooting input
+        if (Time.time > nextFireTime && Input.GetButton("Fire1"))
+        {
+            ShootBullet();
+            nextFireTime = Time.time + fireRate;
+        }
     }
 
     private void WrapAroundScreen()
@@ -74,5 +88,18 @@ public class PlayerController : MonoBehaviour
 
         // Apply rotation
         transform.rotation = Quaternion.Euler(0, 0, smoothAngle);
+    }
+
+    private void ShootBullet()
+    {
+        // Spawn a bullet from the pool
+        GameObject bullet = LeanPool.Spawn(bulletPrefab, transform.position, transform.rotation);
+        Bullet bulletScript = bullet.GetComponent<Bullet>();
+
+        // Set bullet properties based on player settings
+        bulletScript.SetBulletProperties(this.bulletSpeed, this.bulletSize, this.bulletWrapCount, transform.right);
+
+        // Set the owner of the bullet
+        bulletScript.owner = gameObject;
     }
 }

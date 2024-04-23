@@ -605,6 +605,8 @@ MonoBehaviour:
   screenWidth: 21
   screenHeight: 10
   rotationSpeed: 7
+  bulletPrefab: {fileID: 6700262850800882606, guid: 760aa941d90a48041bc924017b337060, type: 3}
+  fireRate: 0.5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
