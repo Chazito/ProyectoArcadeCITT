@@ -11,11 +11,11 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Enemies
+  - LaserBullets
+  - Objects
+  - Pickups
   - 
   - 
   - 
@@ -55,6 +55,9 @@ TagManager:
     locked: 0
   - name: Foreground1
     uniqueID: 4246132971
+    locked: 0
+  - name: Enemies
+    uniqueID: 1956081629
     locked: 0
   - name: Player
     uniqueID: 655456325

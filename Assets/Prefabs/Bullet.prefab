@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2186368347630415027}
   - component: {fileID: 507462811006036706}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 4327621097697504088}
   - component: {fileID: 2366390776540082802}
   - component: {fileID: 8688256606023439103}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6700262850800882606}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -144,7 +144,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!70 &2366390776540082802
 CapsuleCollider2D:
@@ -193,7 +193,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e7df3712ae21d44e8f3e4e00c65f2d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
-  size: 1
-  wrapCount: 2
   owner: {fileID: 0}
+  hitEffect: {fileID: 1235240249029309042, guid: eaa5d71ad78be3d46a9f79330c83f536, type: 3}

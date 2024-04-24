@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float fireRate; // Time between shots in seconds
     [SerializeField] private float bulletSize;
     [SerializeField] private float bulletSpeed;
+    [SerializeField] private float bulletDamage;
     [SerializeField] private int bulletWrapCount;
 
     private float nextFireTime = 0f;
@@ -97,7 +98,7 @@ public class PlayerController : MonoBehaviour
         Bullet bulletScript = bullet.GetComponent<Bullet>();
 
         // Set bullet properties based on player settings
-        bulletScript.SetBulletProperties(this.bulletSpeed, this.bulletSize, this.bulletWrapCount, transform.right);
+        bulletScript.SetBulletProperties(this.bulletSpeed, this.bulletSize, this.bulletWrapCount, transform.right, this.bulletDamage);
 
         // Set the owner of the bullet
         bulletScript.owner = gameObject;
