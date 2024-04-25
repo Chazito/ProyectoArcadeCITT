@@ -132,9 +132,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b94e1e5124aeae45b5b0fe3a80331f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  rotationSpeed: 5
-  player: {fileID: 0}
+  speed: 200
+  rotationSpeed: 2
+  maxHealth: 10
+  _tokensRequired: 3
 --- !u!58 &2069563264509752996
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -196,7 +197,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!1 &6991970654018215467
 GameObject:
   m_ObjectHideFlags: 0

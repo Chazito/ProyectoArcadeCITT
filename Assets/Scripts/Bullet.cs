@@ -14,6 +14,7 @@ public class Bullet : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 screenBounds;
     [SerializeField] private GameObject hitEffect;
+    private bool started = false;
 
     private void Awake()
         => rb = GetComponent<Rigidbody2D>();
@@ -32,6 +33,7 @@ public class Bullet : MonoBehaviour
         this.direction = direction.normalized; // Normalize for consistent speed
         this.damage = bulletDamage;
         rb.velocity = direction * speed; // Set initial velocity
+        started = true;
     }
 
     private void FixedUpdate()
@@ -84,11 +86,12 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if (!started) return;
         // Check for collision with anything except owner, bullets, and itself
         if (collision.gameObject != owner && collision.gameObject != gameObject)
         {
             OnBulletHit(collision.gameObject);  // Call function for handling the hit
+            started = false;
             LeanPool.Despawn(this);
         }
     }

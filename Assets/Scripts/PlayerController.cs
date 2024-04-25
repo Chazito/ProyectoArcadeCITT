@@ -4,8 +4,6 @@ using Lean.Pool;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float movementSpeed;
-    [SerializeField] private float screenWidth;
-    [SerializeField] private float screenHeight;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private GameObject bulletPrefab; // Prefab of the bullet to shoot
     [SerializeField] private float fireRate; // Time between shots in seconds
@@ -13,6 +11,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float bulletSpeed;
     [SerializeField] private float bulletDamage;
     [SerializeField] private int bulletWrapCount;
+    [SerializeField] private float maxHealth;
+    private float currentHealth;
 
     private float nextFireTime = 0f;
     private Rigidbody2D rb;
@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        currentHealth = maxHealth;
     }
 
     private void FixedUpdate()
@@ -102,5 +103,14 @@ public class PlayerController : MonoBehaviour
 
         // Set the owner of the bullet
         bulletScript.owner = gameObject;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        this.currentHealth -= damage;
+        if(currentHealth <= 0 )
+        {
+            GameDirector.instance.GameOver();
+        }
     }
 }
