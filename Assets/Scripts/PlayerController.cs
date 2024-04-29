@@ -13,6 +13,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int bulletWrapCount;
     [SerializeField] private float maxHealth;
     private float currentHealth;
+    public float CurrentHealth
+    {
+        get { return currentHealth; }
+        private set { currentHealth = value; } 
+    }
+    public float MaxHealth
+    {
+        get { return maxHealth; }
+        private set { maxHealth = value; }
+    }
 
     private float nextFireTime = 0f;
     private Rigidbody2D rb;

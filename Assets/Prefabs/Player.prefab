@@ -201,7 +201,7 @@ MonoBehaviour:
   bulletSpeed: 60
   bulletDamage: 5
   bulletWrapCount: 0
-  maxHealth: 10
+  maxHealth: 200
 --- !u!50 &6945249369226666448
 Rigidbody2D:
   serializedVersion: 4
