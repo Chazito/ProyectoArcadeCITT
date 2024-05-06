@@ -12,6 +12,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float bulletDamage;
     [SerializeField] private int bulletWrapCount;
     [SerializeField] private float maxHealth;
+    private float currentExperience;
+    private float nextLevel;
+    private int currentLevel;
     private float currentHealth;
     public float CurrentHealth
     {
@@ -31,6 +34,8 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth;
+        currentLevel = 1;
+        nextLevel = 120;
     }
 
     private void FixedUpdate()
@@ -121,6 +126,23 @@ public class PlayerController : MonoBehaviour
         if(currentHealth <= 0 )
         {
             GameDirector.instance.GameOver();
+        }
+    }
+
+    private void LevelUp()
+    {
+        currentExperience -= nextLevel;
+        currentLevel++;
+        nextLevel = 100 + ((currentLevel-1) * 20);
+        Debug.Log("Level up!");
+    }
+
+    public void AddExperience(float experience)
+    {
+        currentExperience += experience;
+        while(currentExperience > nextLevel)
+        {
+            LevelUp();
         }
     }
 }

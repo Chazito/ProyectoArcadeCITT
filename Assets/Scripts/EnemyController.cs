@@ -7,6 +7,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float maxHealth;
     [SerializeField] private float _tokensRequired;
+    [SerializeField] private ExperienceOrb experiencePrefab;
+    [SerializeField] private float experienceDrop;
     public float tokensRequired { 
         get { return _tokensRequired; } 
         private set { _tokensRequired = value; }
@@ -47,28 +49,22 @@ public class EnemyController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (player != null)
+        if(GameDirector.instance.paused)
         {
-            // Set velocity based on direction and speed
-            rb.velocity = direction * speed * Time.fixedDeltaTime;
-
-            // Rotate towards player
-            RotateTowardsTarget(direction);
+            rb.velocity = Vector3.zero;
+            return;
         }
-        else
-        {
-            rb.velocity = direction * speed * Time.fixedDeltaTime;
-        }
+        //TODO Change Enemy patterns
+        rb.velocity = direction * speed * Time.fixedDeltaTime;
+        RotateTowardsTarget(direction);
     }
 
     private void RotateTowardsTarget(Vector2 targetDirection)
     {
         // Calculate target angle
         float targetAngle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
-
         // Smoothly rotate towards target angle
         float smoothAngle = Mathf.LerpAngle(transform.eulerAngles.z, targetAngle-90, rotationSpeed * Time.fixedDeltaTime);
-
         // Apply rotation
         transform.rotation = Quaternion.Euler(0, 0, smoothAngle);
     }
@@ -96,6 +92,8 @@ public class EnemyController : MonoBehaviour
                 OnEnemyDeathEvent.Invoke();
                 OnEnemyDeathEvent = null;
             }
+            ExperienceOrb orb = LeanPool.Spawn(experiencePrefab, transform.position, Quaternion.identity);
+            orb.Setup(experienceDrop);
             LeanPool.Despawn(this);
         }
     }
