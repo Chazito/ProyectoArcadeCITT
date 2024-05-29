@@ -6,11 +6,19 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
+    [Header("Timer")]
     [SerializeField] private TextMeshProUGUI timerText;
+
+    [Header("Player Health")]
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Image sliderFill;
     [SerializeField] private Color lowHealthColor;
     [SerializeField] private Color highHealthColor;
+
+    [Header("Player Level")]
+    [SerializeField] private Slider xpSlider;
+    [SerializeField] private TextMeshProUGUI levelText;
+
     private GameTime gameTime;
     private PlayerController playerController;
 
@@ -37,6 +45,10 @@ public class UIController : MonoBehaviour
             float healthPercent = Mathf.Clamp01(playerController.CurrentHealth / playerController.MaxHealth);
             healthSlider.value = healthPercent;
             sliderFill.color = LerpColor(lowHealthColor, highHealthColor, healthPercent);
+
+            float xpPercent = Mathf.Clamp01(playerController.CurrentExperience/playerController.NextLevel);
+            xpSlider.value = xpPercent;
+            levelText.text = "Level: " + playerController.CurrentLevel.ToString();
         }
     }
 

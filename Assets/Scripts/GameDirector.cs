@@ -45,6 +45,7 @@ public class GameDirector : MonoBehaviour
     public GameTime gameTime;
     public bool paused;
 
+
     private void Awake()
     {
         if(instance == null) instance = this;
@@ -79,6 +80,10 @@ public class GameDirector : MonoBehaviour
         {
             gameTime.AddTime(Time.deltaTime);
             enemyTokenLimit += enemyTokenIncreaseSec * Time.deltaTime;
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            paused = !paused;
         }
     }
 
@@ -116,5 +121,18 @@ public class GameDirector : MonoBehaviour
         StopAllCoroutines();
         Instantiate(playerExplosion, player.transform.position, Quaternion.identity);
         Destroy(player);
+    }
+
+    public delegate void OnMenuPause();
+    public OnMenuPause onMenuPause;
+    public void MenuPause()
+    {
+        if (onMenuPause != null) onMenuPause.Invoke();
+
+    }
+
+    public void PlayerLevelUp()
+    {
+
     }
 }

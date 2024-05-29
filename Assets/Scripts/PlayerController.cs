@@ -16,6 +16,22 @@ public class PlayerController : MonoBehaviour
     private float nextLevel;
     private int currentLevel;
     private float currentHealth;
+
+    public float CurrentExperience
+    {
+        get { return currentExperience; }
+        private set {  currentExperience = value; }
+    }
+    public float NextLevel
+    {
+        get { return nextLevel; }
+        private set { nextLevel = value; }
+    }
+    public int CurrentLevel
+    {
+        get { return currentLevel; }
+        private set { currentLevel = value; }
+    }
     public float CurrentHealth
     {
         get { return currentHealth; }
@@ -38,8 +54,20 @@ public class PlayerController : MonoBehaviour
         nextLevel = 120;
     }
 
+    private void Update()
+    {
+        if (GameDirector.instance.paused) return;
+        // Check for shooting input
+        if (Time.time > nextFireTime && Input.GetButton("Fire1"))
+        {
+            ShootBullet();
+            nextFireTime = Time.time + fireRate;
+        }
+    }
+
     private void FixedUpdate()
     {
+        if (GameDirector.instance.paused) return;
         // Get input for both horizontal and vertical movement
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
@@ -48,7 +76,7 @@ public class PlayerController : MonoBehaviour
         Vector2 movement = new Vector2(horizontalInput * movementSpeed, verticalInput * movementSpeed);
 
         // Apply force to the Rigidbody2D for movement with momentum
-        rb.AddForce(movement);
+        rb.AddForce(movement.normalized);
 
         // Wrap player position around screen edges
         WrapAroundScreen();
@@ -56,12 +84,7 @@ public class PlayerController : MonoBehaviour
         // Rotate towards mouse position
         RotateTowardsMouse();
 
-        // Check for shooting input
-        if (Time.time > nextFireTime && Input.GetButton("Fire1"))
-        {
-            ShootBullet();
-            nextFireTime = Time.time + fireRate;
-        }
+        
     }
 
     private void WrapAroundScreen()

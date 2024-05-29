@@ -32,6 +32,7 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
+        if (GameDirector.instance.paused) return;
         if(player != null)
         {
             direction = (player.position - transform.position).normalized;
@@ -49,11 +50,7 @@ public class EnemyController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(GameDirector.instance.paused)
-        {
-            rb.velocity = Vector3.zero;
-            return;
-        }
+        if (GameDirector.instance.paused) return;
         //TODO Change Enemy patterns
         rb.velocity = direction * speed * Time.fixedDeltaTime;
         RotateTowardsTarget(direction);

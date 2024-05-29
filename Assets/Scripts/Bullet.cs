@@ -38,6 +38,7 @@ public class Bullet : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (GameDirector.instance.paused) return;
         // Check for screen wrap or despawn
         HandleScreenWrap();
     }

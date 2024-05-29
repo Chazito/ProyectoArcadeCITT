@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 6093705726545404502}
   - component: {fileID: 6945249369226666448}
   - component: {fileID: 3115412409771270221}
+  - component: {fileID: -4124317172892825528}
   m_Layer: 6
   m_Name: Player
   m_TagString: Pickups
@@ -346,6 +347,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &-4124317172892825528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4361967315411093801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b198625c133c7a84aadfc39b13a82ade, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7810667411681194292
 GameObject:
   m_ObjectHideFlags: 0

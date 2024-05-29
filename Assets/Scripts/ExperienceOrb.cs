@@ -28,11 +28,13 @@ public class ExperienceOrb : MonoBehaviour
 
     private void Update()
     {
+        if (GameDirector.instance.paused) return;
         transform.Rotate(new Vector3(0, 0, 1), 90 * Time.deltaTime);
     }
 
     private void FixedUpdate()
     {
+        if (GameDirector.instance.paused) return;
         if (bInitialized && player)
         {
             Vector2 dir = player.transform.position - rb2d.transform.position;

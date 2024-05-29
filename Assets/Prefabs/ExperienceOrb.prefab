@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -8778774311617636850}
   - component: {fileID: 1285917845997496936}
   - component: {fileID: 3113033852448563141}
+  - component: {fileID: 5442802927912631775}
   m_Layer: 10
   m_Name: ExperienceOrb
   m_TagString: Untagged
@@ -113,6 +114,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &5442802927912631775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3875772371522983433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b198625c133c7a84aadfc39b13a82ade, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4635606589142655517
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,7 +199,7 @@ SpriteRenderer:
   m_SortingLayerID: -1494228789
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 045c2bbdbc24b5b4aa21d3656c4706fb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
