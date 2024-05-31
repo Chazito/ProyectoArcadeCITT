@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 348889796049790232}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.438, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -239,6 +239,7 @@ GameObject:
   - component: {fileID: 6945249369226666448}
   - component: {fileID: 3115412409771270221}
   - component: {fileID: -4124317172892825528}
+  - component: {fileID: 4629010876170588554}
   m_Layer: 6
   m_Name: Player
   m_TagString: Pickups
@@ -276,7 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c8b3667918365841b08ce6119bb10b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 8
+  movementSpeed: 300
   rotationSpeed: 5
   bulletPrefab: {fileID: 6700262850800882606, guid: 760aa941d90a48041bc924017b337060, type: 3}
   fireRate: 0.2
@@ -285,6 +286,9 @@ MonoBehaviour:
   bulletDamage: 5
   bulletWrapCount: 0
   maxHealth: 200
+  firepoint: {fileID: 2596175694559232903}
+  forwardDirection: {x: 0, y: 0, z: 0}
+  invulnerabilityTime: 0.2
 --- !u!50 &6945249369226666448
 Rigidbody2D:
   serializedVersion: 4
@@ -357,6 +361,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b198625c133c7a84aadfc39b13a82ade, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4629010876170588554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4361967315411093801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7cb420ddfadef245b3fda2dda5e154d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7810667411681194292

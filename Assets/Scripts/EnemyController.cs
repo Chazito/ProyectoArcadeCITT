@@ -76,6 +76,16 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        // Check if collided with player
+        if (collision.gameObject == player.gameObject)
+        {
+            // Call function for handling player collision (optional)
+            OnPlayerCollision();
+        }
+    }
+
     public delegate void OnEnemyDeath();
     public OnEnemyDeath OnEnemyDeathEvent;
 
@@ -98,7 +108,7 @@ public class EnemyController : MonoBehaviour
     private void OnPlayerCollision()
     {
         // Implement logic for what happens when the enemy collides with the player (e.g., damage player, destroy enemy)
-        Debug.Log("Enemy collided with player!");  // Example log for now
+        //Debug.Log("Enemy collided with player!");  // Example log for now
         player.gameObject.GetComponent<PlayerController>().TakeDamage(10f);
     }
 }

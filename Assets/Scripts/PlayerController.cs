@@ -12,10 +12,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float bulletDamage;
     [SerializeField] private int bulletWrapCount;
     [SerializeField] private float maxHealth;
+    private WeaponInstance weapon;
+    [SerializeField] private Transform firepoint;
     private float currentExperience;
     private float nextLevel;
     private int currentLevel;
     private float currentHealth;
+
+    [SerializeField] private Vector3 forwardDirection;
+
+    [SerializeField] private float invulnerabilityTime = .1f;
+    private float invulTime;
 
     public float CurrentExperience
     {
@@ -52,16 +59,23 @@ public class PlayerController : MonoBehaviour
         currentHealth = maxHealth;
         currentLevel = 1;
         nextLevel = 120;
+        weapon = GetComponent<WeaponInstance>();
     }
 
     private void Update()
     {
         if (GameDirector.instance.paused) return;
+        forwardDirection = transform.right;
+        if (invulTime > 0) invulTime -= Time.deltaTime;
+        weapon.Tick(Time.deltaTime);
         // Check for shooting input
         if (Time.time > nextFireTime && Input.GetButton("Fire1"))
         {
+            weapon.Shoot(firepoint.position, transform.right);
+            /*
             ShootBullet();
             nextFireTime = Time.time + fireRate;
+            */
         }
     }
 
@@ -73,10 +87,10 @@ public class PlayerController : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
         // Calculate movement vector based on input and speed
-        Vector2 movement = new Vector2(horizontalInput * movementSpeed, verticalInput * movementSpeed);
+        Vector2 movement = new Vector2(horizontalInput, verticalInput);
 
         // Apply force to the Rigidbody2D for movement with momentum
-        rb.AddForce(movement.normalized);
+        rb.AddForce(movement.normalized * movementSpeed * Time.fixedDeltaTime);
 
         // Wrap player position around screen edges
         WrapAroundScreen();
@@ -145,7 +159,9 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        if (invulTime > 0) return;
         this.currentHealth -= damage;
+        invulTime = invulnerabilityTime;
         if(currentHealth <= 0 )
         {
             GameDirector.instance.GameOver();

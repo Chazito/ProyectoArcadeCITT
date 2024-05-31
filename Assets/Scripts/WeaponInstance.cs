@@ -6,16 +6,24 @@ using Lean.Pool;
 
 public class WeaponInstance : MonoBehaviour
 {
+    private WeaponSO defaultWeaponTemplate;
     private WeaponSO template;
     private CharacterStat damage;
     private CharacterStat fireRate;
     private CharacterStat projectileCount;
     private CharacterStat projectileSpeed;
     private CharacterStat projectileSize;
+    private CharacterStat projectileWrapCount;
+    private CharacterStat shootingArcAngle;
+    private CharacterStat projectileDeviation;
     private bool initialized;
     private bool shooting;
     private float nextFire;
-    private GameObject owner;
+
+    void Awake()
+    {
+        LoadTemplate(Resources.Load<WeaponSO>("ScriptableObjects/DefaultWeapon"));
+    }
 
     public void LoadTemplate(WeaponSO template)
     {
@@ -25,7 +33,9 @@ public class WeaponInstance : MonoBehaviour
         projectileCount = new CharacterStat(template.projectileCount);
         projectileSize = new CharacterStat(template.projectileSize);
         projectileSpeed = new CharacterStat(template.projectileSpeed);
-
+        projectileWrapCount = new CharacterStat(template.projectileWrapCount);
+        shootingArcAngle = new CharacterStat(template.shootingArcAngle);
+        projectileDeviation = new CharacterStat(template.projectileDeviation);
         initialized = true;
     }
 
@@ -41,9 +51,11 @@ public class WeaponInstance : MonoBehaviour
 
     public bool Shoot(Vector3 firepoint, Vector3 forwardDirection)
     {
+        Debug.Log("Click");
         if(CanFire())
         {
             shooting = true;
+            Debug.Log("Pew");
             StartCoroutine(FireBullets(firepoint, forwardDirection));
             return true;
         }
@@ -55,16 +67,21 @@ public class WeaponInstance : MonoBehaviour
 
     IEnumerator FireBullets(Vector3 origin, Vector3 forwardDirection)
     {
-        float angleIncrement = 180/projectileCount.Value;
-        Vector3 startDirection = Quaternion.AngleAxis(-angleIncrement * (projectileCount.Value - 1) / 2, Vector3.up) * forwardDirection;
+        float angleIncrement = shootingArcAngle.Value/(projectileCount.Value-1);
 
         for(int i = 0; i < projectileCount.Value; i++)
         {
-            Vector3 spawnDirection = Quaternion.AngleAxis(angleIncrement * i, Vector3.up) * startDirection;
-            Quaternion spawnRotation = Quaternion.LookRotation(spawnDirection, Vector3.up);
-            LeanPool.Spawn(template.bulletPrefab, origin, spawnRotation);
+            float zRotation = -shootingArcAngle.Value / 2 + angleIncrement * i;
+            Quaternion finalRotation = Quaternion.Euler(0, 0, zRotation);
+            Quaternion forward = Quaternion.Euler(forwardDirection);
+            GameObject bullet = LeanPool.Spawn(template.bulletPrefab, origin, transform.rotation * finalRotation);
+            Bullet bulletScript = bullet.GetComponent<Bullet>();
+
+            bulletScript.SetBulletProperties(this.projectileSpeed.Value, this.projectileSize.Value, (int)this.projectileWrapCount.Value, bullet.transform.right, this.damage.Value);
+
+            // Set the owner of the bullet
+            bulletScript.owner = gameObject;
         }
-        //TODO TEST
         shooting = false;
         nextFire = fireRate.Value;
         yield return null;

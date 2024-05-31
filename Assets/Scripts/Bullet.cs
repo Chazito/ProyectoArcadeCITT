@@ -32,6 +32,7 @@ public class Bullet : MonoBehaviour
         this.wrapCount = wrapCount;
         this.direction = direction.normalized; // Normalize for consistent speed
         this.damage = bulletDamage;
+        transform.localScale = Vector2.one * size; // Set size
         rb.velocity = direction * speed; // Set initial velocity
         started = true;
     }

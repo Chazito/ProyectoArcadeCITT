@@ -96,7 +96,6 @@ public class GameDirector : MonoBehaviour
             {
                 if (enemyPrefab.tokensRequired <= enemyTokenLimit - enemyTokensUsed)
                 {
-                    Debug.Log("Spawn");
                     Vector3 randomPos = Random.insideUnitCircle.normalized * 30f;
                     EnemyController newEnemy = LeanPool.Spawn(enemyPrefab, randomPos, Quaternion.identity);
                     enemyTokensUsed += newEnemy.tokensRequired;
