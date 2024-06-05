@@ -39,7 +39,7 @@ public class ExperienceOrb : MonoBehaviour
         {
             Vector2 dir = player.transform.position - rb2d.transform.position;
             //rb2d.AddForce(dir.normalized * speed * Time.fixedDeltaTime, ForceMode2D.Force);
-            rb2d.velocity = dir.normalized * speed * Time.fixedDeltaTime;
+            rb2d.AddForce(dir.normalized * speed * Time.fixedDeltaTime);
         }
 
         HandleScreenWrap();

@@ -7,20 +7,51 @@ public class LevelUpUIController : MonoBehaviour
 {
 
     [SerializeField] private Transform offersContent;
-    [SerializeField] private GameObject offerPrefab;
+    [SerializeField] private OfferController offerPrefab;
+    [SerializeField] private Button confirmButton;
+    [SerializeField] private Button banishButton;
+    [SerializeField] private Button rerollButton;
+    private List<OfferController> offerList;
 
     private GameDirector gameDirector;
+    private PerkSO selectedPerk;
 
-
-    // Start is called before the first frame update
-    void Start()
+    public void Setup(List<PerkSO> perks)
     {
-        
+        gameDirector = GameDirector.instance;
+        if(offerList == null)
+        {
+            offerList = new List<OfferController>();
+        }
+        selectedPerk = null;
+        confirmButton.enabled = false;
+        for(int i = 0; i < perks.Count; i++)
+        {
+            if(perks.Count > offerList.Count)
+            {
+                offerList.Add(Instantiate(offerPrefab, offersContent));
+            }
+            int index = i;
+            offerList[i].Setup(perks[i], delegate
+            {
+                selectedPerk = perks[index];
+                confirmButton.enabled = true;
+            });
+            offerList[i].gameObject.SetActive(true);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnConfirm()
     {
-        
+        if(selectedPerk != null)
+        {
+            gameDirector.AddPerk(selectedPerk);
+            selectedPerk = null;
+            foreach(OfferController offer in offerList)
+            {
+                offer.gameObject.SetActive(false);
+            }
+            gameDirector.ResumeGame();
+        }
     }
 }

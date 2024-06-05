@@ -1,6 +1,5 @@
 using UnityEngine;
 using Lean.Pool;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class Bullet : MonoBehaviour
 {

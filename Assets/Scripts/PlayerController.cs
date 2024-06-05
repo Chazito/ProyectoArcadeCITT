@@ -173,6 +173,7 @@ public class PlayerController : MonoBehaviour
         currentExperience -= nextLevel;
         currentLevel++;
         nextLevel = 100 + ((currentLevel-1) * 20);
+        GameDirector.instance.PlayerLevelUp();
         Debug.Log("Level up!");
     }
 
@@ -183,5 +184,10 @@ public class PlayerController : MonoBehaviour
         {
             LevelUp();
         }
+    }
+
+    public void SetWeapon(WeaponSO weapon)
+    {
+        this.weapon.LoadTemplate(weapon);
     }
 }

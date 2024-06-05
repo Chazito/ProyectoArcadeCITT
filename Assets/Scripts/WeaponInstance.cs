@@ -22,20 +22,28 @@ public class WeaponInstance : MonoBehaviour
 
     void Awake()
     {
+        damage = new CharacterStat(0);
+        fireRate = new CharacterStat(0);
+        projectileCount = new CharacterStat(0);
+        projectileSize = new CharacterStat(0);
+        projectileSpeed = new CharacterStat(0);
+        projectileWrapCount = new CharacterStat(0);
+        shootingArcAngle = new CharacterStat(0);
+        projectileDeviation = new CharacterStat(0);
         LoadTemplate(Resources.Load<WeaponSO>("ScriptableObjects/DefaultWeapon"));
     }
 
     public void LoadTemplate(WeaponSO template)
     {
         this.template = template;
-        damage = new CharacterStat(template.damage);
-        fireRate = new CharacterStat(template.fireRate);
-        projectileCount = new CharacterStat(template.projectileCount);
-        projectileSize = new CharacterStat(template.projectileSize);
-        projectileSpeed = new CharacterStat(template.projectileSpeed);
-        projectileWrapCount = new CharacterStat(template.projectileWrapCount);
-        shootingArcAngle = new CharacterStat(template.shootingArcAngle);
-        projectileDeviation = new CharacterStat(template.projectileDeviation);
+        damage.BaseValue = template.damage;
+        fireRate.BaseValue = template.fireRate;
+        projectileCount.BaseValue = template.projectileCount;
+        projectileSize.BaseValue = template.projectileSize;
+        projectileSpeed.BaseValue = template.projectileSpeed;
+        projectileWrapCount.BaseValue = template.projectileWrapCount;
+        shootingArcAngle.BaseValue = template.shootingArcAngle;
+        projectileDeviation.BaseValue = template.projectileDeviation;
         initialized = true;
     }
 
@@ -51,11 +59,11 @@ public class WeaponInstance : MonoBehaviour
 
     public bool Shoot(Vector3 firepoint, Vector3 forwardDirection)
     {
-        Debug.Log("Click");
+        //Debug.Log("Click");
         if(CanFire())
         {
             shooting = true;
-            Debug.Log("Pew");
+            //Debug.Log("Pew");
             StartCoroutine(FireBullets(firepoint, forwardDirection));
             return true;
         }
