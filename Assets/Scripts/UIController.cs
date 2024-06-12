@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,8 +29,8 @@ public class UIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(timerText != null) { timerText.text = gameTime.GetTimeString(); }
-        if(playerController == null)
+        if (timerText != null) { timerText.text = gameTime.GetTimeString(); }
+        if (playerController == null)
         {
             var playerObject = GameDirector.instance.GetPlayer();
             if (playerObject != null)
@@ -40,13 +38,13 @@ public class UIController : MonoBehaviour
                 playerController = playerObject.GetComponent<PlayerController>();
             }
         }
-        if(playerController != null)
+        if (playerController != null)
         {
             float healthPercent = Mathf.Clamp01(playerController.CurrentHealth / playerController.MaxHealth);
             healthSlider.value = healthPercent;
             sliderFill.color = LerpColor(lowHealthColor, highHealthColor, healthPercent);
 
-            float xpPercent = Mathf.Clamp01(playerController.CurrentExperience/playerController.NextLevel);
+            float xpPercent = Mathf.Clamp01(playerController.CurrentExperience / playerController.NextLevel);
             xpSlider.value = xpPercent;
             levelText.text = "Level: " + playerController.CurrentLevel.ToString();
         }

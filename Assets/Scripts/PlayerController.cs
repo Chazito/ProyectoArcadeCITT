@@ -1,17 +1,14 @@
-using UnityEngine;
 using Lean.Pool;
+using UnityEngine;
+using Kryz.CharacterStats;
+using Assets.Scripts;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float movementSpeed;
-    [SerializeField] private float rotationSpeed;
-    [SerializeField] private GameObject bulletPrefab; // Prefab of the bullet to shoot
-    [SerializeField] private float fireRate; // Time between shots in seconds
-    [SerializeField] private float bulletSize;
-    [SerializeField] private float bulletSpeed;
-    [SerializeField] private float bulletDamage;
-    [SerializeField] private int bulletWrapCount;
-    [SerializeField] private float maxHealth;
+    private CharacterStat movementSpeed;
+    private CharacterStat rotationSpeed;
+    private CharacterStat maxHealth;
+    private CharacterStat healthRegen;
     private WeaponInstance weapon;
     [SerializeField] private Transform firepoint;
     private float currentExperience;
@@ -19,15 +16,13 @@ public class PlayerController : MonoBehaviour
     private int currentLevel;
     private float currentHealth;
 
-    [SerializeField] private Vector3 forwardDirection;
-
     [SerializeField] private float invulnerabilityTime = .1f;
     private float invulTime;
 
     public float CurrentExperience
     {
         get { return currentExperience; }
-        private set {  currentExperience = value; }
+        private set { currentExperience = value; }
     }
     public float NextLevel
     {
@@ -42,12 +37,12 @@ public class PlayerController : MonoBehaviour
     public float CurrentHealth
     {
         get { return currentHealth; }
-        private set { currentHealth = value; } 
+        private set { currentHealth = value; }
     }
     public float MaxHealth
     {
-        get { return maxHealth; }
-        private set { maxHealth = value; }
+        get { return maxHealth.Value; }
+        private set { maxHealth.BaseValue = value; }
     }
 
     private float nextFireTime = 0f;
@@ -56,22 +51,35 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        currentHealth = maxHealth;
         currentLevel = 1;
         nextLevel = 120;
         weapon = GetComponent<WeaponInstance>();
     }
 
+    public void SetupTemplate(PlayerTemplates template)
+    {
+        this.movementSpeed = new CharacterStat(template.movementSpeed);
+        this.rotationSpeed = new CharacterStat(template.rotationSpeed);
+        this.maxHealth = new CharacterStat(template.maxHealth);
+        this.healthRegen = new CharacterStat(template.healthRegen);
+
+        this.currentHealth = maxHealth.Value;
+    }
+
     private void Update()
     {
         if (GameDirector.instance.paused) return;
-        forwardDirection = transform.right;
+        if(currentHealth < maxHealth.Value)
+        {
+            currentHealth += healthRegen.Value * Time.deltaTime;
+            currentHealth = Mathf.Clamp(currentHealth, 0 , maxHealth.Value);
+        }
         if (invulTime > 0) invulTime -= Time.deltaTime;
         weapon.Tick(Time.deltaTime);
         // Check for shooting input
         if (Time.time > nextFireTime && Input.GetButton("Fire1"))
         {
-            weapon.Shoot(firepoint.position, transform.right);
+            weapon.Shoot(firepoint.position);
             /*
             ShootBullet();
             nextFireTime = Time.time + fireRate;
@@ -90,7 +98,7 @@ public class PlayerController : MonoBehaviour
         Vector2 movement = new Vector2(horizontalInput, verticalInput);
 
         // Apply force to the Rigidbody2D for movement with momentum
-        rb.AddForce(movement.normalized * movementSpeed * Time.fixedDeltaTime);
+        rb.AddForce(movement.normalized * movementSpeed.Value * Time.fixedDeltaTime);
 
         // Wrap player position around screen edges
         WrapAroundScreen();
@@ -98,7 +106,7 @@ public class PlayerController : MonoBehaviour
         // Rotate towards mouse position
         RotateTowardsMouse();
 
-        
+
     }
 
     private void WrapAroundScreen()
@@ -138,23 +146,16 @@ public class PlayerController : MonoBehaviour
         float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         // Smoothly rotate towards target angle
-        float smoothAngle = Mathf.LerpAngle(transform.eulerAngles.z, targetAngle, rotationSpeed * Time.deltaTime);
+        float smoothAngle = Mathf.LerpAngle(transform.eulerAngles.z, targetAngle, rotationSpeed.Value * Time.deltaTime);
 
         // Apply rotation
         transform.rotation = Quaternion.Euler(0, 0, smoothAngle);
     }
 
-    private void ShootBullet()
+    public void Heal(float amount)
     {
-        // Spawn a bullet from the pool
-        GameObject bullet = LeanPool.Spawn(bulletPrefab, transform.position, transform.rotation);
-        Bullet bulletScript = bullet.GetComponent<Bullet>();
-
-        // Set bullet properties based on player settings
-        bulletScript.SetBulletProperties(this.bulletSpeed, this.bulletSize, this.bulletWrapCount, transform.right, this.bulletDamage);
-
-        // Set the owner of the bullet
-        bulletScript.owner = gameObject;
+        this.currentHealth += amount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth.Value);
     }
 
     public void TakeDamage(float damage)
@@ -162,7 +163,7 @@ public class PlayerController : MonoBehaviour
         if (invulTime > 0) return;
         this.currentHealth -= damage;
         invulTime = invulnerabilityTime;
-        if(currentHealth <= 0 )
+        if (currentHealth <= 0)
         {
             GameDirector.instance.GameOver();
         }
@@ -172,7 +173,8 @@ public class PlayerController : MonoBehaviour
     {
         currentExperience -= nextLevel;
         currentLevel++;
-        nextLevel = 100 + ((currentLevel-1) * 20);
+        nextLevel = 100 + ((currentLevel - 1) * 20);
+        Heal(9999999);
         GameDirector.instance.PlayerLevelUp();
         Debug.Log("Level up!");
     }
@@ -180,7 +182,7 @@ public class PlayerController : MonoBehaviour
     public void AddExperience(float experience)
     {
         currentExperience += experience;
-        while(currentExperience > nextLevel)
+        while (currentExperience > nextLevel)
         {
             LevelUp();
         }

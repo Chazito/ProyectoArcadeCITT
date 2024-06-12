@@ -1,8 +1,8 @@
+using Assets.Scripts;
 using Lean.Pool;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class GameTime
@@ -13,7 +13,7 @@ public class GameTime
     public void AddTime(float seconds)
     {
         this.seconds += seconds;
-        if(this.seconds >= 60)
+        if (this.seconds >= 60)
         {
             this.seconds -= 60;
             this.minutes++;
@@ -42,7 +42,7 @@ public class ActivePerk
 
     public void ApplyPerk(PlayerController player)
     {
-        if(stack > 1)
+        if (stack > 1)
         {
             perk.ApplyPerk(player, stack);
         }
@@ -61,6 +61,7 @@ public class GameDirector : MonoBehaviour
 {
     public static GameDirector instance;
 
+    public PlayerTemplates playerTemplate;
     public GameObject playerPrefab;
     public ParticleSystem playerExplosion;
     private GameObject player;
@@ -83,16 +84,18 @@ public class GameDirector : MonoBehaviour
 
     private void Awake()
     {
-        if(instance == null) instance = this;
-        if(instance != this)
+        if (instance == null) instance = this;
+        if (instance != this)
         {
             Debug.LogError("GameDirector Duplicate found!");
             Destroy(this);
         }
 
-        if(playerPrefab != null)
+        if (playerPrefab != null)
         {
             player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+            player.GetComponent<PlayerController>().SetupTemplate(playerTemplate);
+            player.SetActive(true);
         }
         else
         {
@@ -112,7 +115,7 @@ public class GameDirector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!paused)
+        if (!paused)
         {
             gameTime.AddTime(Time.deltaTime);
             enemyTokenLimit += enemyTokenIncreaseSec * Time.deltaTime;
@@ -126,7 +129,7 @@ public class GameDirector : MonoBehaviour
     Coroutine spawner;
     IEnumerator EnemySpawner()
     {
-        while(true)
+        while (true)
         {
             if (enemyTokensUsed < enemyTokenLimit && !paused)
             {
@@ -135,15 +138,16 @@ public class GameDirector : MonoBehaviour
                     Vector3 randomPos = UnityEngine.Random.insideUnitCircle.normalized * 30f;
                     EnemyController newEnemy = LeanPool.Spawn(enemyPrefab, randomPos, Quaternion.identity);
                     enemyTokensUsed += newEnemy.tokensRequired;
-                    newEnemy.OnEnemyDeathEvent += () => { 
+                    newEnemy.OnEnemyDeathEvent += () =>
+                    {
                         spawnedEnemies.Remove(newEnemy);
-                        enemyTokensUsed -= newEnemy.tokensRequired; 
-                        if(spawner == null && !paused) spawner = StartCoroutine(EnemySpawner());
+                        enemyTokensUsed -= newEnemy.tokensRequired;
+                        if (spawner == null && !paused) spawner = StartCoroutine(EnemySpawner());
                     };
                     spawnedEnemies.Add(newEnemy);
                 }
             }
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.2f);
         }
     }
 
@@ -175,14 +179,22 @@ public class GameDirector : MonoBehaviour
         List<PerkSO> availablePerks = GetAvailablePerks();
         List<PerkSO> selectedOffers = new List<PerkSO>();
 
-        for(int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
-            int r = UnityEngine.Random.Range(0, availablePerks.Count);
-            selectedOffers.Add(availablePerks[r]);
-            //TODO Add perks to compensate for missing perks
-
-            //Debug.Log(availablePerks[r].perkName);
-            availablePerks.RemoveAt(r);
+            if(availablePerks.Count > 0)
+            {
+                int r = UnityEngine.Random.Range(0, availablePerks.Count);
+                selectedOffers.Add(availablePerks[r]);
+                availablePerks.RemoveAt(r);
+            }
+            else
+            {
+                PerkSO voidPerk = Resources.Load<PerkSO>("ScriptableObjects/Perks/VoidPerk");
+                if (voidPerk != null)
+                {
+                    selectedOffers.Add(voidPerk);
+                }
+            }
         }
         levelUpUIController.Setup(selectedOffers);
     }
@@ -256,7 +268,7 @@ public class GameDirector : MonoBehaviour
     {
         if (!activePerks.ContainsKey(perk.perkID))
         {
-            if(perk is WeaponPerk)
+            if (perk is WeaponPerk)
             {
                 RemovePairsByCondition(activePerks, p => p.perk is WeaponPerk);
                 activePerks.Add(perk.perkID, new ActivePerk(perk, 1));

@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 public class LevelUpUIController : MonoBehaviour
 {
@@ -19,15 +17,17 @@ public class LevelUpUIController : MonoBehaviour
     public void Setup(List<PerkSO> perks)
     {
         gameDirector = GameDirector.instance;
-        if(offerList == null)
+        if (offerList == null)
         {
             offerList = new List<OfferController>();
         }
         selectedPerk = null;
-        confirmButton.enabled = false;
-        for(int i = 0; i < perks.Count; i++)
+        banishButton.interactable = false;
+        rerollButton.interactable = false;
+        confirmButton.interactable = false;
+        for (int i = 0; i < perks.Count; i++)
         {
-            if(perks.Count > offerList.Count)
+            if (perks.Count > offerList.Count)
             {
                 offerList.Add(Instantiate(offerPrefab, offersContent));
             }
@@ -35,7 +35,7 @@ public class LevelUpUIController : MonoBehaviour
             offerList[i].Setup(perks[i], delegate
             {
                 selectedPerk = perks[index];
-                confirmButton.enabled = true;
+                confirmButton.interactable = true;
             });
             offerList[i].gameObject.SetActive(true);
         }
@@ -43,11 +43,11 @@ public class LevelUpUIController : MonoBehaviour
 
     public void OnConfirm()
     {
-        if(selectedPerk != null)
+        if (selectedPerk != null)
         {
             gameDirector.AddPerk(selectedPerk);
             selectedPerk = null;
-            foreach(OfferController offer in offerList)
+            foreach (OfferController offer in offerList)
             {
                 offer.gameObject.SetActive(false);
             }

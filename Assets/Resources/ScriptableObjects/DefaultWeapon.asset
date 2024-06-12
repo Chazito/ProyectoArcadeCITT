@@ -16,7 +16,7 @@ MonoBehaviour:
   fireRate: 0.2
   projectileSpeed: 30
   projectileSize: 2
-  projectileCount: 5
+  projectileCount: 3
   projectileWrapCount: 0
   shootingArcAngle: 10
   projectileDeviation: 0

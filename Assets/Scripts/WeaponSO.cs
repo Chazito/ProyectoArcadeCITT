@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Kryz.CharacterStats;
 
-[CreateAssetMenu(menuName ="Data/WeaponSO")]
+[CreateAssetMenu(menuName = "Data/WeaponSO")]
 public class WeaponSO : ScriptableObject
 {
     public float damage;

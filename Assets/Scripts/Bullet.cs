@@ -1,5 +1,5 @@
-using UnityEngine;
 using Lean.Pool;
+using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
@@ -69,7 +69,7 @@ public class Bullet : MonoBehaviour
     {
         if (wrapCount > 0)
         {
-            if(horizontalWrap)
+            if (horizontalWrap)
             {
                 transform.position = new Vector2(newPos, transform.position.y);
             }
@@ -97,7 +97,7 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    public virtual void OnBulletHit(GameObject other) 
+    public virtual void OnBulletHit(GameObject other)
     {
         LeanPool.Spawn(hitEffect, transform.position, transform.rotation);
         EnemyController ec = other.GetComponent<EnemyController>();

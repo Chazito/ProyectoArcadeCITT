@@ -1,8 +1,7 @@
 using Kryz.CharacterStats;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Lean.Pool;
+using System.Collections;
+using UnityEngine;
 
 public class WeaponInstance : MonoBehaviour
 {
@@ -49,7 +48,7 @@ public class WeaponInstance : MonoBehaviour
 
     public void Tick(float deltaTime)
     {
-        if(nextFire > 0) nextFire -= deltaTime;
+        if (nextFire > 0) nextFire -= deltaTime;
     }
 
     private bool CanFire()
@@ -57,14 +56,14 @@ public class WeaponInstance : MonoBehaviour
         return initialized && nextFire <= 0 && !shooting && projectileCount.Value > 0;
     }
 
-    public bool Shoot(Vector3 firepoint, Vector3 forwardDirection)
+    public bool Shoot(Vector3 firepoint)
     {
         //Debug.Log("Click");
-        if(CanFire())
+        if (CanFire())
         {
             shooting = true;
             //Debug.Log("Pew");
-            StartCoroutine(FireBullets(firepoint, forwardDirection));
+            StartCoroutine(FireBullets(firepoint));
             return true;
         }
         else
@@ -73,15 +72,14 @@ public class WeaponInstance : MonoBehaviour
         }
     }
 
-    IEnumerator FireBullets(Vector3 origin, Vector3 forwardDirection)
+    IEnumerator FireBullets(Vector3 origin)
     {
-        float angleIncrement = shootingArcAngle.Value/(projectileCount.Value-1);
+        float angleIncrement = projectileCount.Value > 1 ? shootingArcAngle.Value / (projectileCount.Value - 1) : 0;
 
-        for(int i = 0; i < projectileCount.Value; i++)
+        for (int i = 0; i < projectileCount.Value; i++)
         {
-            float zRotation = -shootingArcAngle.Value / 2 + angleIncrement * i;
+            float zRotation = -(shootingArcAngle.Value / 2) + (angleIncrement * i);
             Quaternion finalRotation = Quaternion.Euler(0, 0, zRotation);
-            Quaternion forward = Quaternion.Euler(forwardDirection);
             GameObject bullet = LeanPool.Spawn(template.bulletPrefab, origin, transform.rotation * finalRotation);
             Bullet bulletScript = bullet.GetComponent<Bullet>();
 

@@ -246,7 +246,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8496740426845433408
 Transform:
   m_ObjectHideFlags: 0
@@ -277,17 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c8b3667918365841b08ce6119bb10b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 300
-  rotationSpeed: 5
-  bulletPrefab: {fileID: 6700262850800882606, guid: 760aa941d90a48041bc924017b337060, type: 3}
-  fireRate: 0.2
-  bulletSize: 1
-  bulletSpeed: 60
-  bulletDamage: 5
-  bulletWrapCount: 0
-  maxHealth: 200
   firepoint: {fileID: 2596175694559232903}
-  forwardDirection: {x: 0, y: 0, z: 0}
   invulnerabilityTime: 0.2
 --- !u!50 &6945249369226666448
 Rigidbody2D:

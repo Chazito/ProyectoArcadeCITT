@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Lean.Pool;
+using UnityEngine;
 
 public class ExperienceOrb : MonoBehaviour
 {
@@ -84,7 +82,7 @@ public class ExperienceOrb : MonoBehaviour
     {
         if (bInitialized && player)
         {
-            if(collision.gameObject == player.gameObject)
+            if (collision.gameObject == player.gameObject)
             {
                 player.AddExperience(experienceValue);
                 bInitialized = false;

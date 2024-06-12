@@ -10,8 +10,9 @@ public class Pausable : MonoBehaviour
     private Quaternion rotation;
 
     private bool _paused = false;
-    public bool paused { 
-        get { return _paused; } 
+    public bool paused
+    {
+        get { return _paused; }
         private set { _paused = value; }
     }
 

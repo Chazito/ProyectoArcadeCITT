@@ -2481,11 +2481,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b75c0e41fa5473046b5a6df6a6b3e6db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerTemplate: {fileID: 11400000, guid: 3909aed939c43914c9334b87f82448d8, type: 2}
   playerPrefab: {fileID: 4361967315411093801, guid: 4815bb103b637bd438a79764671a7dc9, type: 3}
   playerExplosion: {fileID: 3801498517002655779, guid: 14e8e4f4ea34a804e943d575af23cab4, type: 3}
   enemyPrefab: {fileID: 1795783965975657797, guid: c4ca2f1f8444e874b9d22b21cb4a3e27, type: 3}
-  enemyTokenLimit: 10
-  enemyTokenIncreaseSec: 1
+  enemyTokenLimit: 3
+  enemyTokenIncreaseSec: 0
   enemyTokensUsed: 0
   paused: 0
   perkLibrary:
