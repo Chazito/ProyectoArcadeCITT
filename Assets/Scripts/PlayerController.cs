@@ -5,10 +5,10 @@ using Assets.Scripts;
 
 public class PlayerController : MonoBehaviour
 {
-    private CharacterStat movementSpeed;
-    private CharacterStat rotationSpeed;
-    private CharacterStat maxHealth;
-    private CharacterStat healthRegen;
+    [HideInInspector] public CharacterStat movementSpeed;
+    [HideInInspector] public CharacterStat rotationSpeed;
+    [HideInInspector] public CharacterStat maxHealth;
+    [HideInInspector] public CharacterStat healthRegen;
     private WeaponInstance weapon;
     [SerializeField] private Transform firepoint;
     private float currentExperience;
@@ -109,6 +109,11 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public WeaponInstance GetWeaponInstance()
+    {
+        return weapon;
+    }
+
     private void WrapAroundScreen()
     {
         Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.nearClipPlane));
@@ -173,7 +178,7 @@ public class PlayerController : MonoBehaviour
     {
         currentExperience -= nextLevel;
         currentLevel++;
-        nextLevel = 100 + ((currentLevel - 1) * 20);
+        nextLevel = 100 + ((currentLevel - 1) * 50);
         Heal(9999999);
         GameDirector.instance.PlayerLevelUp();
         Debug.Log("Level up!");

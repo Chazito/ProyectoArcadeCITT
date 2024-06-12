@@ -2485,14 +2485,17 @@ MonoBehaviour:
   playerPrefab: {fileID: 4361967315411093801, guid: 4815bb103b637bd438a79764671a7dc9, type: 3}
   playerExplosion: {fileID: 3801498517002655779, guid: 14e8e4f4ea34a804e943d575af23cab4, type: 3}
   enemyPrefab: {fileID: 1795783965975657797, guid: c4ca2f1f8444e874b9d22b21cb4a3e27, type: 3}
-  enemyTokenLimit: 3
-  enemyTokenIncreaseSec: 0
+  enemyTokenLimit: 10
+  enemyTokenIncreaseSec: 1
   enemyTokensUsed: 0
   paused: 0
   perkLibrary:
   - {fileID: 11400000, guid: 6d5e37d50010f854bbf3ceff1432e319, type: 2}
   - {fileID: 11400000, guid: 5fc11c2a66dbf884ab75dbe759a93658, type: 2}
   - {fileID: 11400000, guid: 3fcba5076ad56a44195c7c293f5b49e4, type: 2}
+  - {fileID: 11400000, guid: 344bcb0a091d719459e936c093603c0c, type: 2}
+  - {fileID: 11400000, guid: cfb8a12377ce3a6458d2b00b3dc82c3c, type: 2}
+  - {fileID: 11400000, guid: 118a86e4841abaf4e8d0426f50e7a9c4, type: 2}
   banishedPerks: []
   bannedPerks: []
   levelUpUIController: {fileID: 1558594911}

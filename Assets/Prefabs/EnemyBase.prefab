@@ -135,7 +135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 200
   rotationSpeed: 3
-  maxHealth: 300000
+  maxHealth: 50
   _tokensRequired: 3
   experiencePrefab: {fileID: -8778774311617636850, guid: 7e0c7478556074d45930cb115a5c6abc, type: 3}
   experienceDrop: 10

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Data/WeaponPerk")]
+[CreateAssetMenu(menuName = "Data/Perks/WeaponPerk")]
 public class WeaponPerk : PerkSO
 {
     public WeaponSO weapon;

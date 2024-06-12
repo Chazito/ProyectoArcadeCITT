@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Data/VoidPerk")]
+[CreateAssetMenu(menuName = "Data/Perks/VoidPerk")]
 public class VoidPerkPerk : PerkSO
 {
     //TODO Add to score

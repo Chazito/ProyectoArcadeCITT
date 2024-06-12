@@ -7,14 +7,14 @@ public class WeaponInstance : MonoBehaviour
 {
     private WeaponSO defaultWeaponTemplate;
     private WeaponSO template;
-    private CharacterStat damage;
-    private CharacterStat fireRate;
-    private CharacterStat projectileCount;
-    private CharacterStat projectileSpeed;
-    private CharacterStat projectileSize;
-    private CharacterStat projectileWrapCount;
-    private CharacterStat shootingArcAngle;
-    private CharacterStat projectileDeviation;
+    [HideInInspector] public CharacterStat damage;
+    [HideInInspector] public CharacterStat fireRate;
+    [HideInInspector] public CharacterStat projectileCount;
+    [HideInInspector] public CharacterStat projectileSpeed;
+    [HideInInspector] public CharacterStat projectileSize;
+    [HideInInspector] public CharacterStat projectileWrapCount;
+    [HideInInspector] public CharacterStat shootingArcAngle;
+    [HideInInspector] public CharacterStat projectileDeviation;
     private bool initialized;
     private bool shooting;
     private float nextFire;
